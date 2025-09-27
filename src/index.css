@@ -1,13 +1,225 @@
+@import url('./xy-theme.css');
+
+html,
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    margin: 0;
+    font-family: sans-serif;
+    box-sizing: border-box;
+    /* Prevent zoom on mobile when tapping */
+    touch-action: manipulation;
+    -webkit-touch-callout: none;
+    user-select: none;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+#root {
+    width: 100vw;
+    height: 100vh;
+}
+
+.dndflow {
+    flex-direction: column;
+    display: flex;
+    flex-grow: 1;
+    height: 100%;
+}
+
+.status-bar {
+    background: #f8f9fa;
+    border-bottom: 1px solid #dee2e6;
+    padding: 10px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+    min-height: 50px;
+}
+
+.target-time {
+    font-weight: bold;
+    color: #333;
+}
+
+.verification-status {
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+.verification-status.correct {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.verification-status.incorrect {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.no-target {
+    color: #6c757d;
+    font-style: italic;
+}
+
+.password-reveal {
+    background: linear-gradient(135deg, #28a745, #20c997);
+    color: white;
+    padding: 20px;
+    margin: 0;
+    text-align: center;
+    border-bottom: 1px solid #1e7e34;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.password-label {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.password-value {
+    font-size: 24px;
+    font-family: 'Courier New', monospace;
+    font-weight: bold;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 15px 20px;
+    border-radius: 8px;
+    margin: 15px auto;
+    max-width: 500px;
+    word-break: break-all;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.password-copy {
+    margin-top: 15px;
+}
+
+.copy-button {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.copy-button:hover {
+    background: rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: translateY(-2px);
+}
+
+.copy-button:active {
+    transform: translateY(0);
+}
+
+.dndflow aside {
+    border-right: 1px solid #eee;
+    padding: 15px 10px;
+    font-size: 12px;
+    background: #fcfcfc;
+}
+
+.dndflow aside .description {
+    margin-bottom: 10px;
+}
+
+.dndflow .dndnode {
+    height: 20px;
+    padding: 8px;
+    border: 1px solid #1a192b;
+    border-radius: 6px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: grab;
+    /* Prevent zoom or scroll when dragging nodes on mobile */
+    touch-action: none;
+    background: white;
+    font-size: 12px;
+    text-wrap: nowrap;
+}
+
+.dndflow .ghostnode {
+    position: fixed;
+    pointer-events: none;
+    width: 100px;
+}
+
+.dndflow .dndnode:active {
+    cursor: grabbing;
+}
+
+.dndflow .node-section {
+    margin-bottom: 20px;
+}
+
+.dndflow .node-section h4 {
+    margin: 0 0 10px 0;
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+}
+
+.dndflow .node-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 5px;
+    max-height: 150px;
+    overflow-y: auto;
+    padding-right: 5px;
+}
+
+.dndflow .node-grid .dndnode {
+    height: 25px;
+    font-size: 10px;
+    padding: 2px 4px;
+    margin-bottom: 0;
+}
+
+.dndflow .dndnode.hour {
+    border-color: #0041d0;
+    background-color: #e6f2ff;
+}
+
+.dndflow .dndnode.minute {
+    border-color: #00b300;
+    background-color: #e6ffe6;
+}
+
+.dndflow .dndnode.second {
+    border-color: #ff0072;
+    background-color: #ffe6f2;
+}
+
+.dndflow .reactflow-wrapper {
+    flex-grow: 1;
+    height: 100%;
+}
+
+@media screen and (min-width: 768px) {
+    .dndflow {
+        flex-direction: row;
+    }
+
+    .dndflow aside {
+        width: 20%;
+        max-width: 250px;
+    }
 }
